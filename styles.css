@@ -3,63 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title> Document</title>
-    <style>
-        /* ส่วนนี้คือ css */
-        /* ใช้สำหรับแต่ง (id class) */
-        @font-face {
-            font-family: 'Kanit';
-            src: url(./Kanit/Kanit-Regular.ttf);
-        }
+    <link rel="stylesheet" href="styles.css">
 
-        body {
-            font-family: 'Kanit';
-            font-size: 14px;
-            background-color: aliceblue;
-        }
-
-        .container {
-            width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .header {
-            font-size: 30px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .header-form {
-            width: 140px;
-        }
-
-        .flex {
-            display: flex;
-        }
-
-        .form-input {
-            margin-bottom: 10px;
-        }
-
-        input.form,
-        textarea {
-            border: 1px solid pink;
-            width: 100%;
-        }
-
-        .center {
-            text-align: center;
-        }
-
-        .button {
-            border: 0;
-            width: 100%;
-            height: 40px;
-            background-color: aqua;
-        }
-    </style>
 </head>
 
 <body>
@@ -115,5 +62,6 @@
 
 </html>
 
-
-
+@media screen and (max) {
+    
+}
