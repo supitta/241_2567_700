@@ -5,24 +5,31 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0"
 </head>
 <body>
-    <div 
-    onmouseover="overitem()"
-    onmouseup="upitem()"
-    onmousedown="downitem()"
-    > click here </div>
-    
-   
+    <div>
+        <h2>สิ่งที่สนใจ</h2>
+        <div id = "content">
+
+        </div>
+    </div>
+    <input type="checkbox"name="interest" value="กีฬา">กีฬา
+    <input type="checkbox"name="interest" value="ดนตรี">ดนตรี
+    <input type="checkbox"name="interest" value="อาหาร">อาหาร
+    <input type="checkbox"name="interest" value="เทคโนโลยี">เทคโนโลยี
+    <botton onclick="Submitinterrest()">แสดงสิ่งที่สนใจ</botton>
     <script>
-        function overitem(){
-            console.log('mouse over')
+        function Submitinterrest(){
+            let interestDOM = document.querySelectorAll('input[name="interest"]');
+            let contentHTML = '<u1>';
+                for (let i = 0; i < interestDOM.length;i++){
+                    if (interestDOM[i].checked){
+                        contentHTML += '<li>'+ interestDOM[i].value + '</li>';
+                    }
+                }
+                contentHTML += '</ul>';
+                let contentDOM = document.getElementById('content');
+                contentDOM.innerHTML = contentHTML;
         }
-        function upitem(){
-            console.log('mouse op')
-        }
-        function downitem(){
-            console.log('mouse down')
-        }
-   
+        
     </script>
 </body>
 </html>
