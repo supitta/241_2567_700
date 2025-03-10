@@ -1,132 +1,187 @@
-const submitData = async () => {
-  //const express = require('express');
-  const bodyParser = require('body-parser');
-  const app = express();
-  const port = 8000;
-  const cors = require('cors');
-  app.use(bodyParser.json());
-  let users = []
-  let counter = 1
-/*
-GET /user สำหรับ get users ทั้งหมดที่บันทึกไว้
-POST /users สำหรับสร้าง users ในบันทึกเข้าไป
-GET /users/:id สำหรับดึง users รายคนออกมา
-PUT /users/:id สำหรับแก้ไข users รายคน (ตามไอดีที่บันทึกเข้าไป)
-DELETE /users/:id สำหรับลบ users รายคน (ตามไอดีที่บันทึกเข้าไป)
-*/
-//path: GET /users ใช้สำหรับแสดงข้อมูล user ทั้งหมด 
-app.get('/users', async (req, res) => {
-  const result = await conn.query('SELECT * FORM users')
-  res.json(result[0]);
-})
-//path: /user ใช้ในการสร้างข้อมูล user ใหม่
-app.post('/users', async (req, res) => {
-  try{
-      let user = req.body;
-      const errors = validateData(user)
-      if (errors.length > 0) {
-          throw {
-              message: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-              errors: errors
-          }
-      }
-      const result = await conn.query('INSERT INTO users SET ?',user)
-      res.json({
-          message: 'Create user successfully',
-          data: result[0]
-      })
-  }
-  catch(error){
-      const errorMessage = error.message || 'Something went wrong'
-      const errors = error.errors || []
-      console.error('error: ',error.message)
-      res.status(500).json({
-          message: errorMessage,
-          errors: errors
-      })
-  }
-  
-})
-app.put('/user/:id', async (req, res) => {
-  try{
-      let id = req.params.id;
-      let updateUser = req.body;
-      const result = await conn.query(
-          'UPDATE users SET ? WHERE id = ?',
-          [updateUser, id]
-      )
-      res.json({
-          message: 'Update user successfully',
-          data: result[0]
-      })
-  } catch (error) {
-      console.error('error: ',error.message)
-      res.status(500).json({
-          message: 'something went wrong',
-          errorMessage: error.message
-      })
-  }
-}
-)
-//path: PUT /user /:id ใช้สำรับแก้ไขข้อมูล user โดยใช้ id
-app.get('/user/:id', async (req, res) => {
-  try{
-      let id = req.params.id;
-      const result = await conn.query('SELECT * FROM users WHERE id = ?',id)
-      if(result[0].length > 0) {
-          res.json(result[0][0])
-      }else {
-          res.status(404).json({
-              message: 'user not found'
-          })
-      }
-      res.json(result[0][0])
-  }catch(error){
-      console.error('error: ', error.message)
-      res.status(500).json({
-          message: 'something went wrong',
-          errorMessage: error.message
-      })
-  }
-  let updateUser = req.body;
-  //หาuserจาก id ที่ส่งมา
-  let selectedIndex = users.findIndex(user => user.id == id)
-  users[selectedIndex]=updateUser;
-  if (updateUser.firstname) {
-      user[selectedIndex].firstname = updateUser.firstname || users[selectedIndex].firstname
-  }
-  if (updateUser.lastname) {
-      user[selectedIndex].lastname = updateUser.lastname || users[selectedIndex].lastname
-  }
-  res.json({
-      message: 'Update user successfully',
-      data: {
-          user: updateUser,
-          indexUpdated: selectedIndex
-      }
-  })
-  //แก้ไขข้อมูล users ที่หาเจอ
-  //users ที่ update ใหม่ กลับไปเก็บใน users เดิม
-})
-//path: DELETE /user/:id ใช้สำหรับลบข้อมูล user โดยใช้ id เป็นตัวระบุ
-app.delete('/user/:id', async (req, res) => {
-  try{
-      let id = req.params.id;
-      const result = await conn.query('DELETE from users WHERE id = ?',parseInt(id))
-      res.json({
-          message: 'Delete user successfully',
-          data: result[0]
-      })
-  } catch (error) {
-      console.error('error: ', error.message)
-      res.status(500).json({
-          message: 'something went wrong',
-          errorMessage: error.message
-      })
-  }
-})
+const { response } = require("express")
 
-app.listen(port, async (req, res) => {
-  console.log('Http server is running on port' + port)
-});
+const BASE_URL = 'http://localhost:8000'
+let mode ='CREATE'//default mode
+let selectedId=''
+
+window.onload = async()=> {
+    const urlParams = new URLSearchParams(window.location.search)
+    const id = urlParams.get('id')
+    console.log('id',id)
+    if(id){
+        mode = 'EDIT'
+        selectedId = id
+        //1. เราจะดึงข้อมูลของ user ที่ต้องการแก้ไข
+        try{
+            const response = await axios.get(`${BASE_URL}/users/${id}`)
+            console.log('data',response.data)
+
+            //2.เราจะนำข้อมูลของuser ที่ดึงมา ใส่ใน input ที่เรามี
+            let firstNameDOM = document.querySelector('input[name="firstname"]');
+            let lastNameDOM = document.querySelector('input[name="lastname"]');
+            let ageDOM = document.querySelector('input[name="age"]');
+            //let genderDOM = document.querySelector('input[name="gender"]:checked') || {}
+            //let interestDOMs = document.querySelectorAll('input[name=interest]:checked') || {}
+            let descriptionDOM = document.querySelector('textarea[name="description"]');
+
+            firstNameDOM.value = user.firstName
+            lastNameDOM.value = user.lastName
+            ageDOM.value = user.age
+            descriptionDOM.value = user.description
+            
+            let genderDOM = document.querySelectorAll('input[name=gander]')
+            let interestDOMs = document.querySelectorAll('input[name=interest]')
+
+            for (let i= 0; i< ganderDOMs.length;i++){
+                if (ganderDOMs[i].value == user.gender){
+                    ganderDOMs[i].checked = true
+                }
+            }
+        for  (let i=0;i<interestDOMs.length;i++){
+            if (user.interest.includes(interestDOMs[i].value)){
+                interestDOMs[i].checked = true
+            }
+        }
+
+        }catch(error){
+            console.log('error',error)
+        }
+    }
 }
+
+
+const validateData = (userData) => {
+    let errors = [];
+    if (!userData.firstName) {
+        errors.push('กรุณากรอกชื่อ');
+    }
+    if (!userData.lastName) {
+        errors.push('กรุณากรอกนามสกุล');
+    }
+    if (!userData.age) {
+        errors.push('กรุณากรอกอายุ');
+    }
+    if (!userData.gender) {
+        errors.push('กรุณาเลือกเพศ');
+    }
+    if (!userData.interests) {
+        errors.push('กรุณาเลือกความสนใจ');
+    }
+    if (!userData.description) {
+        errors.push('กรุณากรอกคำอธิบาย');
+    }
+    return errors;
+}
+
+
+const submitData = async () => {
+    let firstNameDOM = document.querySelector('input[name="firstname"]');
+    let lastNameDOM = document.querySelector('input[name="lastname"]');
+    let ageDOM = document.querySelector('input[name="age"]');
+    let genderDOM = document.querySelector('input[name="gender"]:checked') || {}
+    let interestDOMs = document.querySelectorAll('input[name=interest]:checked') || {}
+    let descriptionDOM = document.querySelector('textarea[name="description"]');
+
+    let messageDOM = document.getElementById('message');
+    try {
+        let interest = '';
+        for (let i = 0; i < interestDOMs.length; i++) {
+            interest += interestDOMs[i].value
+            if (i != interestDOMs.length - 1) {
+                interest += ','
+            }
+        }
+
+        let userData = {
+            firstName: firstNameDOM.value,
+            lastName: lastNameDOM.value,
+            age: ageDOM.value,
+            gender: genderDOM.value,
+            description: descriptionDOM.value,
+            interests: interest
+        }
+        console.log('submitData', userData);
+/*        
+        console.log('submitData', userData);
+
+        const errors = validateData(userData);
+        if(errors.length > 0){
+         //มี error เกิดขึ้น
+         throw{
+            message: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+            errors: errors
+         }
+        }
+ */
+        let message = 'บันทึกข้อมูลเรียบร้อย'
+        if (mode=='CREATE'){
+        const response = await axios.post(`${BASE_URL}/users`, userData)
+        console.log('response', response.data);
+        }else{
+            const response = await axios.post(`${BASE_URL}/users/${selectedId}`,userData)
+            massage = 'แก้ไขข้อมูลเรียบร้อย'
+            console.log('response',response.data);
+        }
+
+
+        messageDOM.innerText = 'บันทึกข้อมูลเรียบร้อย';
+        messageDOM.className = 'message success';
+    } catch (error) {
+        console.log('error message:', error.message);
+        console.log('error:', error.errors);
+        
+        if (error.response) {
+            console.log('error.response', error.response.data.message);
+            error.message = error.response.data.message;
+            error.errors = error.response.data.errors;
+        }
+        
+
+
+
+
+        let htmlData = '<div>';
+        htmlData += `<div> ${error.message} </div>`
+        htmlData += '<ul>'
+        for (let i = 0; i < error.errors.length; i++) {
+            htmlData += `<li> ${error.errors[i]} </li>`
+        }
+        htmlData += '</div>'
+        htmlData += '</ul>'
+
+        messageDOM.innerHTML= htmlData;
+        messageDOM.className = 'message danger';
+    }
+}
+
+
+
+
+/*function submitData(){
+    let firstnameDOM = document.querySelector('input[name="firstname"]');
+    let lastnameDOM = document.querySelector('input[name="lastname"]');
+    let ageDOM = document.querySelector('input[name="gender"]');
+    let genderDOM = document.querySelector('input[name="gender"]:checked');
+    let intersetDOM = document.querySelector('input[name="interest"]checked');
+    let desciptionDOM = document.querySelector('textarea[name="description"]');
+
+    let interest = ''
+    for (let i=0; i < intersetDOM.length; i++){
+        interest += intersetDOM[i].value 
+        if (i < intersetDOMs.length - 1){
+            interest += ','
+        }
+    }
+
+
+    let userData ={
+        firstName:firstnameDOM.value,
+        lastName: lastnameDOM.value,
+        age: ageDOM.value,
+        gender: genderDOM.value,
+        desciption: desciptionDOM.value,
+        interest: interest
+    }
+    console.log('submitData',userData);
+}
+*/
