@@ -1,67 +1,147 @@
-<!DOCTYPE html>
-<html lang="en">
+@font-face {
+    font-family: 'Kanit';
+    src: url('./Kanit/Kanit-Regular.ttf');
+}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title> Document</title>
-    <link rel="stylesheet" href="styles.css">
+body {
+    background-color: #EBE8DB; /* สีพื้นหลังหน้าเว็บ */
+    font-family: 'Kanit';
+    font-size: 14px;
+}
 
-</head>
+.container {
+    width: 100%;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #E6B2BA; /* สีพื้นหลังตาราง register form */
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+.small-botton1, .small-botton2 { /* ปุ่ม back to register */
+    display: inline-block;
+    padding: 5px 8px;
+    background-color: #A43755;
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.small-botton1:hover, .small-botton2:hover {
+    background-color: #892841;
+    transform: scale(1.1);
+}
 
-<body>
-    <div class="container">
-        <div class="header">
-            Register form
-        </div>
-        <div class="flex form-input">
-            <div class="header-form">ชื่อ</div>
-            <input class="form" type="text">
-        </div>
-        <div class="flex form-input">
-            <div class="header-form">นามสกุล</div>
-            <input class="form" type="text">
-        </div>
-        <div class="flex form-input">
-            <div class="header-form">อายุ</div>
-            <input class="form" type="number" min="0" max="100" </div>
-            <div class="flex gender form-input">
-                <div class="header-form">เพศ</div>
-                <div>
-                    <input name="gender" type="radio">ชาย
-                    <input name="gender" type="radio"> หญิง
-                    <input name="gender" type="radio"> อื่นๆ
-                </div>
-            </div>
-            <div class="form-input">
-                งานอดิเรก
-                <div>
-                    <input name="interest" type="checkbox"> อ่านหนังสือ
-                </div>
-                <div>
-                    <input name="interest" type=" checkbox"> ดูหนัง
-                    <div>
-                    </div>
-                    <input name="interest" type=" checkbox"> ฟังเพลง
-                </div>
-            </div>
-            <div class="form-input">
-                คำอธิบาย
-            </div>
-            <textarea></textarea>
-        </div>
-    </div>
-    <div class="center">
-        <button=class="button">ส่งข้อมูล</button>
-    </div>
-    </div>
+.header {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.flex {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.form-inout {
+    margin-bottom: 30px;
+}
+
+input.form, textarea {
+    border: 1px solid #A43755;
+    width: 100%;
+}
+
+.center {
+    text-align: center;
+}
+
+.button {
+    border: 2px solid #A31D1D; /* สีขอบปุ่มส่งข้อมูล */
+    background-color: #B03052; /* สีปุ่มส่งข้อมูล */
+    color: white; /* สีตัวอักษรปุ่มส่งข้อมูล */
+    width: 50%;
+    height: 40px;
+}
+
+.message {
+    margin-bottom: 20px;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: red;
+    display: none;
+}
+
+.message.success {
+    background-color: lightgreen;
+    display: block;
+}
+
+.message.danger {
+    background-color: #F2E2B1;
+    display: block;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #F5F5F5;/* สีพื้นหลังตารางข้อมูล  user management */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #A43755;
+    color: white;
+}
+
+.actions button {
+    margin: 4px;
+    padding: 6px 12px;
+    background-color: #F2EFE7; /* สีปุ่ม Delete ก่อนhover */
+    color: black;/* สีตัวอักษรปุ่ม Delete ก่อนhover*/
+    border-radius: 4px;
+}
+
+
+.actions button:hover {
+    background-color: #F2E2B1;/* สีปุ่ม Delete หลัง hover */
+    color: black;/* สีตัวอักษรปุ่ม Delete หลัง hover*/
+    transform: scale(1.1);
+}
+
+
+.actions a button {
+    background-color: #ADB2D4; /* สีปุ่ม Edit */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.actions a button:hover {
+    background-color: #2D336B;
+    color: white;
+    transform: scale(1.1);
+}
 
 
 
-</body>
+@media screen and (max-width: 768px) {
+    .flex {
+        flex-direction: column;
+    }
 
-</html>
+    .header {
+        font-size: 24px;
+    }
 
-@media screen and (max) {
-    
+    .button {
+        width: 100%;
+    }
 }
