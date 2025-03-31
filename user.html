@@ -1,17 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport"content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
-    <a href="index.html">Back to Register</a>
-    User managment page
-    <div id="users"></div>
+
+    
+    <video autoplay muted loop id="bg-video">
+        <source src="video2.mp4" type="video/mp4"> 
+    </video>
+
+
+    <a href="index.html" class="small-botton1">Back to Register</a>
+    <div class="container">
+    <h1 class="header">User Management Page</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th><th>Firstname</th><th>Lastname</th><th>Button</th>
+            </tr>
+        </thead>
+        <tbody id="users"></tbody> 
+    </table>
+
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
     <script src="user.js"></script>
-
 </body>
 </html>
